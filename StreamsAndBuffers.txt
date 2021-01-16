@@ -1,0 +1,24 @@
+Example Incoming Request 
+
+Stream request body part 1 --- request body part 2 --- request body part 3 ---> Fully Parsed
+
+if there's large amount of data then node sends that in parts ... so that you can work
+with data without waiting for all the data to be parsed... but you cannot arbitrarly choose 
+what you want to work with... 
+
+So we have concept of Buffers ... 
+we can use event listner ... req.on('events','function handler') - req.on('data', function handler) - data event will be fired whenever
+a new chunk is ready to be read... 
+
+const body= [ ];   
+req.on('data', (chunk)=>{
+    console.log(chunk)
+    body.push(chunk);
+});
+// end listner will be fired when node is done parsing incoming request data ...
+
+req.on('end' , ()=>{
+    const parsedBody = Buffer.concat(body).toString();
+} );
+ 
+
